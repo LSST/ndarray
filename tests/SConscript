@@ -1,7 +1,7 @@
 # -*- python -*-
 from lsst.sconsUtils import scripts, env
 
-ccList = ["ndarray.cc", "ndarray-eigen.cc"]
+ccList = ["ndarray-main.cc", "ndarray-eigen.cc"]
 if env.dependencies.get("fftw"):
     ccList.append("ndarray-fft.cc")
 else:
@@ -10,9 +10,12 @@ else:
 mod = env.SwigLoadableModule("ndarray_python_test", "ndarray-python-mod.cc",
                              LIBS=env.getLibs("main python"))
 
+scripts.BasicSConscript.pybind11(['pybind11_test_mod'])
+
 tests = scripts.BasicSConscript.tests(
     ccList=ccList,
-    pyList=["ndarray-python.py"]
+    pyList=["ndarray-python.py", "ndarray-pybind11.py"],
+    noBuildList=['pybind11_test_mod.cc']
 )
 
 env.Depends(tests, mod)
