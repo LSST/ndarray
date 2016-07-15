@@ -21,11 +21,11 @@
  * see <http://www.lsstcorp.org/LegalNotices/>.
  */
 
-#ifndef NDARRAY_SWIG_PyConverter_h_INCLUDED
-#define NDARRAY_SWIG_PyConverter_h_INCLUDED
+#ifndef NDARRAY_CONVERTER_PyConverter_h_INCLUDED
+#define NDARRAY_CONVERTER_PyConverter_h_INCLUDED
 
 /**
- *  @file ndarray/swig/PyConverter.h
+ *  @file ndarray/converter/PyConverter.h
  *  @brief Python C-API conversions for standard numeric types.
  */
 #include <Python.h>
@@ -363,4 +363,4 @@ struct PyConverter< std::string > : public detail::PyConverterBase<std::string> 
 
 } // namespace ndarray
 
-#endif // !NDARRAY_SWIG_PyConverter_h_INCLUDED
+#endif // !NDARRAY_CONVERTER_PyConverter_h_INCLUDED

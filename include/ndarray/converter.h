@@ -20,11 +20,11 @@
  * see <http://www.lsstcorp.org/LegalNotices/>.
  */
 
-#ifndef NDARRAY_swig_h_INCLUDED
-#define NDARRAY_swig_h_INCLUDED
+#ifndef NDARRAY_converter_h_INCLUDED
+#define NDARRAY_converter_h_INCLUDED
 
 /**
- *  @file ndarray/swig.h
+ *  @file ndarray/converter.h
  *  @brief Public header file for SWIG-based Python support.
  *
  *  \warning Both the Numpy C-API headers "arrayobject.h" and
@@ -41,6 +41,10 @@
  *  Vector, and Python Numpy objects.
  */
 
-#include "ndarray/converter.h"
+#include "Python.h"
+#include "ndarray.h"
+#include "ndarray/converter/numpy.h"
+#include "ndarray/converter/ufunctors.h"
+#include "ndarray/converter/Vector.h"
 
-#endif // !NDARRAY_swig_h_INCLUDED
+#endif // !NDARRAY_converter_h_INCLUDED

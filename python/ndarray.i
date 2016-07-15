@@ -32,7 +32,7 @@
 %{
 #include "ndarray.h"
 #include "ndarray/swig.h"
-#include "ndarray/swig/eigen.h"
+#include "ndarray/converter/eigen.h"
 #include <boost/scoped_ptr.hpp>
 %}
 

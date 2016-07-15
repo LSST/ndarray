@@ -21,16 +21,16 @@
  * see <http://www.lsstcorp.org/LegalNotices/>.
  */
 
-#ifndef NDARRAY_SWIG_numpy_h_INCLUDED
-#define NDARRAY_SWIG_numpy_h_INCLUDED
+#ifndef NDARRAY_CONVERTER_numpy_h_INCLUDED
+#define NDARRAY_CONVERTER_numpy_h_INCLUDED
 
 /** 
- *  @file ndarray/swig/numpy.h
+ *  @file ndarray/converter/numpy.h
  *  @brief Python C-API conversions between ndarray and numpy.
  */
 
 #include "ndarray.h"
-#include "ndarray/swig/PyConverter.h"
+#include "ndarray/converter/PyConverter.h"
 
 namespace ndarray {
 namespace detail {
@@ -264,4 +264,4 @@ struct PyConverter< Array<T,N,C> > : public detail::PyConverterBase< Array<T,N,C
 
 } // namespace ndarray
 
-#endif // !NDARRAY_SWIG_numpy_h_INCLUDED
+#endif // !NDARRAY_CONVERTER_numpy_h_INCLUDED
