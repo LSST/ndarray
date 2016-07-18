@@ -99,6 +99,8 @@ struct MatrixOwner {
     explicit MatrixOwner() : member(MemberMatrix::Zero()) {}
 };
 
+#if 0
+
 DECLARE_NUMPY_CONVERTER(ndarray::Array<double,1,1>)
 DECLARE_NUMPY_CONVERTER(ndarray::Array<double const,1,1>)
 DECLARE_NUMPY_CONVERTER(ndarray::Array<double,3,0>)
@@ -107,6 +109,8 @@ DECLARE_NUMPY_CONVERTER(Eigen::Matrix2d)
 DECLARE_NUMPY_CONVERTER(Eigen::Matrix3d)
 DECLARE_NUMPY_CONVERTER(Eigen::MatrixXd)
 DECLARE_NUMPY_CONVERTER(Eigen::Matrix<double,2,2,Eigen::DontAlign>)
+
+#endif
 
 PYBIND11_PLUGIN(_pybind11_test_mod) {
     pybind11::module mod("_pybind11_test_mod", "Tests for the ndarray library");
@@ -123,20 +127,24 @@ PYBIND11_PLUGIN(_pybind11_test_mod) {
 
     cls.def_readwrite("member", &MatrixOwner::member);
     cls.def("getMember", &MatrixOwner::getMember);
-
+#if 0
     mod.def("returnMatrixXd", &returnMatrixXd);
     mod.def("returnMatrix2d", &returnMatrix2d);
+#endif
     mod.def("returnArray1", &returnArray1);
     mod.def("returnConstArray1", &returnConstArray1);
     mod.def("returnArray3", &returnArray3);
     mod.def("returnConstArray3", &returnConstArray3);
+#if 0
     mod.def("acceptMatrixXd", &acceptMatrixXd);
     mod.def("acceptMatrix2d", &acceptMatrix2d);
+#endif
     mod.def("acceptArray1", &acceptArray1);
     mod.def("acceptArray3", &acceptArray3);
+#if 0
     mod.def("acceptOverload", (int (*)(int)) &acceptOverload);
     mod.def("acceptOverload", (int (*)(Eigen::Matrix2d const &)) &acceptOverload);
     mod.def("acceptOverload", (int (*)(Eigen::Matrix3d const &)) &acceptOverload);
-
+#endif
     return mod.ptr();
 }

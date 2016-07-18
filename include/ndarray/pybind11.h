@@ -46,50 +46,43 @@
 #include "ndarray/converter.h"
 #include "ndarray/converter/eigen.h"
 
-/**
- *  @brief A macro to create custom pybind11 type casters for ndarray.
- *
- *  This macro, when called in a pybind11 extension module file, creates 
- *  a pybind11 type caster specialization for the type given as its argument.
- *
- *  Note that the macro itself is declared variadic, but only expects a
- *  single argument!
+NAMESPACE_BEGIN(pybind11)
+NAMESPACE_BEGIN(detail)
+
+template <typename T, int N, int C>
+class type_caster< ndarray::Array<T,N,C> > {
+public:
+    bool load(handle src, bool) {
+        ndarray::PyPtr tmp(src.ptr(), true);
+        if (!ndarray::PyConverter< ndarray::Array<T,N,C> >::fromPythonStage1(tmp)) {
+            PyErr_Clear();
+            return false;
+        }
+        if (!ndarray::PyConverter< ndarray::Array<T,N,C> >::fromPythonStage2(tmp, value)) {
+            PyErr_Clear();
+            return false;
+        }
+        return true;
+    }
+    static handle cast(const ndarray::Array<T,N,C> &src, return_value_policy /* policy */, handle /* parent */) {
+        return ndarray::PyConverter< ndarray::Array<T,N,C> >::toPython(src);
+    }
+/* This part is normally created by the PYBIND11_TYPE_CASTER macro, which
+ * can't be used here due to the partial specialization
  */
-#define DECLARE_NUMPY_CONVERTER(...) \
-NAMESPACE_BEGIN(pybind11) \
-NAMESPACE_BEGIN(detail) \
-template <> class type_caster<__VA_ARGS__> { \
-public: \
-    bool load(handle src, bool) { \
-        ndarray::PyPtr tmp(src.ptr(), true); \
-        if (!ndarray::PyConverter< __VA_ARGS__ >::fromPythonStage1(tmp)) { \
-            PyErr_Clear(); \
-            return false; \
-        } \
-        if (!ndarray::PyConverter< __VA_ARGS__ >::fromPythonStage2(tmp, value)) { \
-            PyErr_Clear(); \
-            return false; \
-        } \
-        return true; \
-    } \
-    static handle cast(const __VA_ARGS__ &src, return_value_policy /* policy */, handle /* parent */) { \
-        return ndarray::PyConverter< __VA_ARGS__ >::toPython(src); \
-    } \
-/* This part is normally created by the PYBIND11_TYPE_CASTER macro, which \
- * can't be used here due to comma's in the expected  template arguments \
- */ \
-protected: \
-    __VA_ARGS__ value; \
-public: \
-    static PYBIND11_DESCR name() { return type_descr(_(#__VA_ARGS__)); } \
-    static handle cast(const __VA_ARGS__ *src, return_value_policy policy, handle parent) { \
-        return cast(*src, policy, parent); \
-    } \
-    operator __VA_ARGS__*() { return &value; } \
-    operator __VA_ARGS__&() { return value; } \
-    template <typename _T> using cast_op_type = pybind11::detail::cast_op_type<_T>; \
-}; \
-NAMESPACE_END(detail) \
+protected:
+    ndarray::Array<T,N,C> value;
+public:
+    static PYBIND11_DESCR name() { return type_descr(_<ndarray::Array<T,N,C>>()); }
+    static handle cast(const ndarray::Array<T,N,C> *src, return_value_policy policy, handle parent) {
+        return cast(*src, policy, parent);
+    }
+    operator ndarray::Array<T,N,C> * () { return &value; }
+    operator ndarray::Array<T,N,C> & () { return value; }
+    template <typename _T> using cast_op_type = pybind11::detail::cast_op_type<_T>;
+};
+
+NAMESPACE_END(detail)
 NAMESPACE_END(pybind11)
 
 #endif // !NDARRAY_pybind11_h_INCLUDED
