@@ -21,15 +21,15 @@
  * see <http://www.lsstcorp.org/LegalNotices/>.
  */
 
-#ifndef NDARRAY_SWIG_Vector_h_INCLUDED
-#define NDARRAY_SWIG_Vector_h_INCLUDED
+#ifndef NDARRAY_CONVERTER_Vector_h_INCLUDED
+#define NDARRAY_CONVERTER_Vector_h_INCLUDED
 
 /** 
- *  @file ndarray/swig/Vector.h
+ *  @file ndarray/converter/Vector.h
  *  @brief Python C-API conversions for Vector.
 */
 
-#include "ndarray/swig/PyConverter.h"
+#include "ndarray/converter/PyConverter.h"
 
 namespace ndarray {
 
@@ -115,4 +115,4 @@ struct PyConverter< Vector<T,N> > : public detail::PyConverterBase< Vector<T,N> 
 
 } // namespace ndarray
 
-#endif // !NDARRAY_SWIG_Vector_h_INCLUDED
+#endif // !NDARRAY_CONVERTER_Vector_h_INCLUDED

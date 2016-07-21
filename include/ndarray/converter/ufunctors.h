@@ -21,15 +21,15 @@
  * see <http://www.lsstcorp.org/LegalNotices/>.
  */
 
-#ifndef NDARRAY_SWIG_ufunctors_h_INCLUDED
-#define NDARRAY_SWIG_ufunctors_h_INCLUDED
+#ifndef NDARRAY_CONVERTER_ufunctors_h_INCLUDED
+#define NDARRAY_CONVERTER_ufunctors_h_INCLUDED
 
 /** 
- *  \file ndarray/swig/ufunctors.h
+ *  \file ndarray/converter/ufunctors.h
  *  @brief Python wrappers to create numpy ufunc objects from C++ function objects.
  */
 
-#include "ndarray/swig/numpy.h"
+#include "ndarray/converter/numpy.h"
 
 namespace ndarray {
 
@@ -139,4 +139,4 @@ struct PyBinaryUFunctor {
 
 } // namespace ndarray
 
-#endif // !NDARRAY_SWIG_ufunctors_h_INCLUDED
+#endif // !NDARRAY_CONVERTER_ufunctors_h_INCLUDED
