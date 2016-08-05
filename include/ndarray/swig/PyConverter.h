@@ -197,7 +197,12 @@ template <>
 struct PyConverter<int> : public detail::PyConverterBase<int> {
 
     static bool fromPythonStage1(PyPtr & input) {
-        if (!PyInt_Check(input.get()) && !PyLong_Check(input.get())) {
+        if (
+#if PY_MAJOR_VERSION <= 2
+            !PyInt_Check(input.get()) &&
+#endif
+            !PyLong_Check(input.get())
+        ) {
             PyPtr s(PyObject_Repr(input.get()));
             if (!s) return false;
             char * cs = PyBytes_AsString(s.get());
@@ -209,22 +214,27 @@ struct PyConverter<int> : public detail::PyConverterBase<int> {
 
     static bool fromPythonStage2(PyPtr const & input, int & output) {
         NDARRAY_ASSERT(input);
-        output = PyInt_AsLong(input.get());
+        output = PyLong_AsLong(input.get());
         return true;
     }
 
     static PyObject * toPython(int input) {
-        return PyInt_FromLong(input);
+        return PyLong_FromLong(input);
     }
-    
-    static PyTypeObject const * getPyType() { return &PyInt_Type; }
+
+    static PyTypeObject const * getPyType() { return &PyLong_Type; }
 };
 
 template <>
 struct PyConverter<long> : public detail::PyConverterBase<long> {
 
     static bool fromPythonStage1(PyPtr & input) {
-        if (!PyInt_Check(input.get()) && !PyLong_Check(input.get())) {
+        if (
+#if PY_MAJOR_VERSION <= 2
+            !PyInt_Check(input.get()) &&
+#endif
+            !PyLong_Check(input.get())
+        ) {
             PyPtr s(PyObject_Repr(input.get()));
             if (!s) return false;
             char * cs = PyBytes_AsString(s.get());
