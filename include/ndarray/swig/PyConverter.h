@@ -172,7 +172,7 @@ struct PyConverter<bool> : public detail::PyConverterBase<bool> {
         if (!PyBool_Check(input.get())) {
             PyPtr s(PyObject_Repr(input.get()));
             if (!s) return false;
-            char * cs = PyString_AsString(s.get());
+            char * cs = PyBytes_AsString(s.get());
             if (!cs) return false;
             PyErr_Format(PyExc_TypeError,"'%s' is not a valid C++ bool value.",cs);
         }
@@ -200,7 +200,7 @@ struct PyConverter<int> : public detail::PyConverterBase<int> {
         if (!PyInt_Check(input.get()) && !PyLong_Check(input.get())) {
             PyPtr s(PyObject_Repr(input.get()));
             if (!s) return false;
-            char * cs = PyString_AsString(s.get());
+            char * cs = PyBytes_AsString(s.get());
             if (!cs) return false;
             PyErr_Format(PyExc_TypeError,"'%s' is not a valid C++ int value.",cs);
         }
@@ -227,7 +227,7 @@ struct PyConverter<long> : public detail::PyConverterBase<long> {
         if (!PyInt_Check(input.get()) && !PyLong_Check(input.get())) {
             PyPtr s(PyObject_Repr(input.get()));
             if (!s) return false;
-            char * cs = PyString_AsString(s.get());
+            char * cs = PyBytes_AsString(s.get());
             if (!cs) return false;
             PyErr_Format(PyExc_TypeError,"'%s' is not a valid C++ long value.",cs);
         }
@@ -254,7 +254,7 @@ struct PyConverter<float> : public detail::PyConverterBase<float> {
         if (!PyFloat_Check(input.get())) {
             PyPtr s(PyObject_Repr(input.get()));
             if (!s) return false;
-            char * cs = PyString_AsString(s.get());
+            char * cs = PyBytes_AsString(s.get());
             if (!cs) return false;
             PyErr_Format(PyExc_TypeError,"'%s' is not a valid C++ float value.",cs);
         }
@@ -281,7 +281,7 @@ struct PyConverter<double> : public detail::PyConverterBase<double> {
         if (!PyFloat_Check(input.get())) {
             PyPtr s(PyObject_Repr(input.get()));
             if (!s) return false;
-            char * cs = PyString_AsString(s.get());
+            char * cs = PyBytes_AsString(s.get());
             if (!cs) return false;
             PyErr_Format(PyExc_TypeError,"'%s' is not a valid C++ double value.",cs);
         }
@@ -308,7 +308,7 @@ struct PyConverter< std::complex<U> > : public detail::PyConverterBase< std::com
         if (!PyComplex_Check(input.get())) {
             PyPtr s(PyObject_Repr(input.get()));
             if (!s) return false;
-            char * cs = PyString_AsString(s.get());
+            char * cs = PyBytes_AsString(s.get());
             if (!cs) return false;
             PyErr_Format(PyExc_TypeError,"'%s' is not a valid C++ complex value.",cs);
         }
@@ -333,10 +333,10 @@ template <>
 struct PyConverter< std::string > : public detail::PyConverterBase<std::string> {
 
     static bool fromPythonStage1(PyPtr & input) {
-        if (!PyString_Check(input.get())) {
+        if (!PyBytes_Check(input.get())) {
             PyPtr s(PyObject_Repr(input.get()));
             if (!s) return false;
-            char * cs = PyString_AsString(s.get());
+            char * cs = PyBytes_AsString(s.get());
             if (!cs) return false;
             PyErr_Format(PyExc_TypeError,"'%s' is not a valid C++ string value.",cs);
         }
@@ -347,16 +347,16 @@ struct PyConverter< std::string > : public detail::PyConverterBase<std::string> 
         NDARRAY_ASSERT(input);
         char * buf = 0;
         Py_ssize_t size = 0;
-        if (PyString_AsStringAndSize(input.get(),&buf,&size) == -1) return false;
+        if (PyBytes_AsStringAndSize(input.get(),&buf,&size) == -1) return false;
         output = std::string(buf,size);
         return true;
     }
 
     static PyObject * toPython(std::string const & input) {
-        return PyString_FromStringAndSize(input.data(),input.size());
+        return PyBytes_FromStringAndSize(input.data(),input.size());
     }
     
-    static PyTypeObject const * getPyType() { return &PyString_Type; }
+    static PyTypeObject const * getPyType() { return &PyBytes_Type; }
 };
 
 /// \endcond
