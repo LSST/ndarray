@@ -2,7 +2,6 @@ setupRequired(boost)
 setupRequired(python)
 setupRequired(numpy)
 setupRequired(eigen)
-setupRequired(base)
 setupRequired(swig)
 setupRequired(fftw)
 
