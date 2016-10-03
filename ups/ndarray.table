@@ -3,6 +3,7 @@ setupRequired(python)
 setupRequired(numpy)
 setupRequired(eigen)
 setupRequired(swig)
+setupRequired(pybind11)
 setupRequired(fftw)
 
 envPrepend(PYTHONPATH, ${PRODUCT_DIR}/python)
