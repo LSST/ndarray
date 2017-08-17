@@ -2,7 +2,6 @@ setupRequired(boost)
 setupRequired(python)
 setupRequired(numpy)
 setupRequired(eigen)
-setupRequired(swig)
 setupRequired(pybind11)
 setupRequired(fftw)
 
