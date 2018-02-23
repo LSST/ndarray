@@ -1,0 +1,16 @@
+diff -ru ndarray-1.3.3.orig/include/ndarray/converter/PyConverter.h ndarray-1.3.3/include/ndarray/converter/PyConverter.h
+--- ndarray-1.3.3.orig/include/ndarray/converter/PyConverter.h	2017-07-18 14:53:35.000000000 -0700
++++ ndarray-1.3.3/include/ndarray/converter/PyConverter.h	2018-01-17 19:23:21.685094020 -0800
+@@ -129,7 +129,12 @@
+  */
+ template <
+     typename T,
++#if __cplusplus >= 201103L
++    // prefer std::is_unsigned if available, for forward compatibility with boost
++    bool isUnsigned=std::is_unsigned<T>::value,
++#else
+     bool isUnsigned=boost::is_unsigned<T>::value,
++#endif
+     int cmpToLong=(sizeof(T) < sizeof(long)) ? -1 : ((sizeof(T)==sizeof(long)) ? 0 : 1)
+     >
+ struct PyIntConverter;
